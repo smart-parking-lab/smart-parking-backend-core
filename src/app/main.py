@@ -4,11 +4,14 @@ from contextlib import asynccontextmanager
 from app.core.cors import setup_cors
 from app.api.lpr import router as lpr_router
 from app.utils.http_client import close_client
+from app.utils.mqtt_client import mqtt_client
 
 load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    mqtt_client.connect()
     yield
+    mqtt_client.disconnect()
     await close_client()
 
 def create_app() -> FastAPI:
@@ -18,6 +21,7 @@ def create_app() -> FastAPI:
         version="0.1.0",
         lifespan=lifespan
     )
+    
 
     setup_cors(app)
 
