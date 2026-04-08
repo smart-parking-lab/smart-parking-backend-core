@@ -15,11 +15,8 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Pre-download PaddleOCR models để tránh tải lại lúc runtime (gây timeout 502)
-RUN python -c "\
-from paddleocr import PaddleOCR; \
-PaddleOCR(use_angle_cls=False, lang='en', show_log=True, use_gpu=False); \
-print('✅ PaddleOCR models downloaded successfully')"
+# Skip pre-download at build time because PaddleOCR init can crash
+# in constrained build environments (Render builder), causing exit 134.
 
 COPY . .
 
