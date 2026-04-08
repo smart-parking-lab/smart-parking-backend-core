@@ -7,16 +7,11 @@ DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 _handler = logging.StreamHandler(sys.stdout)
 _handler.setFormatter(logging.Formatter(LOG_FORMAT, DATE_FORMAT))
 
-# Danh sách module nội bộ cần log
 _MODULE_NAMES = [
-    "be_core",
-    "mqtt_client",
-    "mqtt_handlers",
-    "gate_service",
-    "payment_service",
-    "slot_service",
-    "lpr_client",
-    "pricing_service",
+    "be_system",
+    "lpr_service",
+    "session_store",
+    "api_recognize",
 ]
 
 

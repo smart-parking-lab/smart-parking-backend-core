@@ -3,21 +3,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# ===== Camera =====
+CAMERA_URL = os.getenv("CAMERA_URL", "http://192.168.1.41:8080/shot.jpg")
+CAMERA_ROTATE_DEG = int(os.getenv("CAMERA_ROTATE_DEG", "90"))
 
-# ===== MQTT =====
-MQTT_BROKER = os.getenv("MQTT_BROKER", "broker.hivemq.com")
-MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
-MQTT_CLIENT_ID = os.getenv("MQTT_CLIENT_ID", "be_core_smart_parking")
+# ===== Thư mục ảnh local dùng cho test =====
+IMAGE_DIR = os.getenv("IMAGE_DIR", r"E:\tam\smart-parking-backend-core\tests\image")
 
-# ===== Database (Supabase PostgreSQL) =====
+# ===== Database =====
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
-# ===== Supabase Storage =====
-SUPABASE_URL = os.getenv("SUPABASE_URL", "")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
-
-# ===== BE LPR =====
-LPR_SERVICE_URL = os.getenv("LPR_SERVICE_URL", "http://127.0.0.1:8001")
+# ===== Cloudinary =====
+CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "")
+CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "")
+CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
 
 # ===== Server =====
 SERVER_HOST = os.getenv("SERVER_HOST", "127.0.0.1")
