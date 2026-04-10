@@ -133,3 +133,7 @@ Thumbs.db
 
 # Test images
 test-images/
+
+# User request: do not push files under these folders
+scripts/**
+data/**
