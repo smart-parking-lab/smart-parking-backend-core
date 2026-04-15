@@ -19,7 +19,15 @@ if CAMERA_ROTATE_DEG not in (0, 90, 180, 270):
 
 # Khởi tạo PaddleOCR 1 lần duy nhất
 try:
-    ocr = PaddleOCR(use_angle_cls=True, lang='en', show_log=False, use_gpu=False)
+    ocr = PaddleOCR(
+        use_angle_cls=True, 
+        lang='en', 
+        det=False,
+        rec_batch_num=2,
+        show_log=False, 
+        use_gpu=False,
+        rec_char_dict_path='src/app/services/plate_dict.txt'
+    )
 except Exception:
     ocr = PaddleOCR(lang='en')
 
