@@ -18,7 +18,7 @@ async def update_invoice(payload: InvoiceCheckout, db: AsyncSession = Depends(ge
 async def pay_invoice(payload: InvoicePay, db: AsyncSession = Depends(get_db)):
     return await invoices_services.pay_invoice(db, payload)
 
-@router.get("/", response_model=RevenueResponse, status_code=200)
+@router.get("", response_model=RevenueResponse, status_code=200)
 async def get_revenue(request: Request, db: AsyncSession = Depends(get_db)):
     user_payload = request.state.user
     user_id = user_payload.get("sub")
