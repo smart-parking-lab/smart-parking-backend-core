@@ -27,6 +27,7 @@ PUBLIC_PATHS: set[tuple[str, str]] = {
     ("OPTIONS", "/api/v1/auth/login"),
     ("OPTIONS", "/api/v1/auth/me"),
     ("OPTIONS", "/api/v1/parking-sessions"),
+    ("OPTIONS", "/api/v1/parking-slots"),
 }
 
 
