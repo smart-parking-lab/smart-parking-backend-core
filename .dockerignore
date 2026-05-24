@@ -1,0 +1,36 @@
+# Loại bỏ môi trường ảo Python cục bộ
+.venv/
+venv/
+ENV/
+env/
+
+# Loại bỏ cache sinh ra trong quá trình chạy Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Loại bỏ các file log cục bộ
+*.log
+*.log.*
+
+# Loại bỏ các thông tin nhạy cảm của Supabase, Database cục bộ
+.env
+.env.local
+.env.*
+
+# Loại bỏ Git và các file cấu hình của IDE
+.git
+.gitignore
+.gitattributes
+.github/
+.idea/
+.vscode/
+
+# Loại bỏ các thư mục tài liệu không cần khi deploy
+docs/
+test/
+parking-lpr/
