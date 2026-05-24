@@ -107,7 +107,7 @@ class MQTTClient:
             from app.services.parking_sessions_services import create_parking_session, update_parking_session
             
             try:
-                res = client.post("/recognize",json={"gate": sensor}, timeout=100.0)
+                res = client.post("/recognize/camera", timeout=100.0)
                 res.raise_for_status()
             except Exception as http_err:
                 error_msg = f"❌ Lỗi gọi LPR Service ({sensor}): {http_err}"

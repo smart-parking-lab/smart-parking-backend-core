@@ -36,7 +36,7 @@ async def checkout_invoice(db: AsyncSession, payload: InvoiceCheckout):
     
     now = datetime.now()
     day_of_week = now.weekday()
-    current_time = now.strftime("%H:%M:%S")
+    current_time = now.time()
     if day_of_week == 5 or day_of_week == 6:
         day_of_week = "SAT-SUN"
     else:
@@ -46,8 +46,8 @@ async def checkout_invoice(db: AsyncSession, payload: InvoiceCheckout):
         select(PricingRule).filter(
             and_(
                 PricingRule.days_of_week == day_of_week,
-                current_time >= PricingRule.start_time,
-                current_time <= PricingRule.end_time
+                PricingRule.start_time <= current_time,
+                PricingRule.end_time >= current_time
             )
         )
     )
