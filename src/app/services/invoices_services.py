@@ -71,8 +71,16 @@ async def pay_invoice(db: AsyncSession, payload: InvoicePay):
     invoice = result.scalars().first()
     if not invoice:
         raise HTTPException(status_code=404, detail="Invoice không tồn tại")
+        mqtt_client._publish_control({
+            "target": "ERR",
+            "content": "Invoice không tồn tại"
+        })
     if invoice.status == "paid":
         raise HTTPException(status_code=400, detail="Invoice đã được thanh toán")
+        mqtt_client._publish_control({
+            "target": "ERR",
+            "content": "Invoice đã được thanh toán"
+        })
     
     invoice.status = "paid"
     invoice.paid_at = datetime.now()
