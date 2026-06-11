@@ -113,6 +113,8 @@ class MQTTClient:
                 error_msg = f"❌ Lỗi gọi LPR Service ({sensor}): {http_err}"
                 print(error_msg)
                 logger.error(error_msg)
+                if sensor == "GATE_OUT":
+                    self._publish_control({"target": "ERR", "content": "LOI NHAN DIEN BIEN SO"})
                 return
 
             if res.status_code == 200:
@@ -122,13 +124,20 @@ class MQTTClient:
                 
                 if not plate:
                     logger.warning(f"⚠️ LPR không nhận diện được biển số tại {sensor}")
+                    if sensor == "GATE_OUT":
+                        self._publish_control({"target": "ERR", "content": "LOI NHAN DIEN BIEN SO"})
                     return
 
                 async with SessionLocal() as db:
                     if sensor == "GATE_IN":
                         await create_parking_session(db, plate, image_url)
                     else:
-                        await update_parking_session(db, plate, image_url)    
+                        try:
+                            await update_parking_session(db, plate, image_url)    
+                        except Exception as session_err:
+                            logger.warning(f"⚠️ Không tìm thấy session cho xe ra ({plate}): {session_err}")
+                            self._publish_control({"target": "ERR", "content": "LOI NHAN DIEN BIEN SO"})
+                            return
                 
                 print(f"✅ Đã xử lý {sensor} cho xe: {plate}")
         except Exception as e:
