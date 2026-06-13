@@ -63,11 +63,19 @@ class MQTTClient:
     def _handle_message(self, client, userdata, msg):
         try:
             payload = msg.payload.decode("utf-8")
-            msg_log = f"📩 Nhận tin nhắn | Topic: {msg.topic} | Payload: {payload}"
+            try:
+                data = json.loads(payload)
+                is_server = data.get("is_server", False)
+            except Exception:
+                data = {}
+                is_server = False
+
+            if is_server:
+                return
+
+            msg_log = f"nhận topics {msg.topic}: {payload}"
             print(msg_log)
             logger.info(msg_log)
-
-            data = json.loads(payload)
 
             if msg.topic == TOPIC_SENSOR:
                 self._handle_sensor(data)
@@ -228,11 +236,14 @@ class MQTTClient:
                 logger.warning("⚠️ MQTT chưa kết nối")
                 return
 
+            message["is_server"] = True
             payload = json.dumps(message)
             result = self._client.publish(TOPIC_CONTROL, payload, qos=1)
 
             if result.rc == mqtt.MQTT_ERR_SUCCESS:
-                logger.info(f"📤 Sent to {TOPIC_CONTROL}: {payload}")
+                msg_log = f"gửi topic {TOPIC_CONTROL}: {payload}"
+                print(msg_log)
+                logger.info(msg_log)
             else:
                 logger.error(f"❌ Publish thất bại, rc={result.rc}")
 
