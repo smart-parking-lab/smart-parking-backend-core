@@ -102,3 +102,7 @@ async def get_parking_slots_with_active_sensors(db: AsyncSession, user_id: UUID)
         ))
 
     return results
+
+async def has_empty_slot(db: AsyncSession) -> bool:
+    result = await db.execute(select(ParkingSlot).filter(ParkingSlot.status == "empty"))
+    return len(result.scalars().all()) > 0

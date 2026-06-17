@@ -113,6 +113,14 @@ class MQTTClient:
         client = get_sync_client()
         try:
             from app.services.parking_sessions_services import create_parking_session, update_parking_session
+            from app.services.parking_slots_services import has_empty_slot
+            
+            if sensor == "GATE_IN":
+                async with SessionLocal() as db:
+                    empty_exists = await has_empty_slot(db)
+                    if not empty_exists:
+                        self._publish_control({"target": "ERR", "content": "BAI XE DAY"})
+                        return
             
             try:
                 res = client.post("/recognize/camera", timeout=100.0)
